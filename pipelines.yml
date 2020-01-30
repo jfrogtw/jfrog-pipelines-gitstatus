@@ -6,9 +6,9 @@ resources:
       path: jfrogtw/jfrog-pipelines-gitstatus
 
 pipelines:
-  - name: git_status
+  - name: twgit_status
     steps:
-      - name: execute_success_tests
+      - name: tw_execute_success_tests
         type: Bash
         configuration:
           inputResources:
@@ -25,13 +25,13 @@ pipelines:
           onComplete:
             - echo "$is_success"
             - update_commit_status twtest_repo
-      - name: execute_failure_tests
+      - name: tw_execute_failure_tests
         type: Bash
         configuration:
           inputResources:
             - name: twtest_repo
           inputSteps:
-            - name: execute_success_tests
+            - name: tw_execute_success_tests
 
         execution:
           onStart:
