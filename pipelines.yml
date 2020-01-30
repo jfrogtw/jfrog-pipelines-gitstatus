@@ -1,5 +1,5 @@
 resources:
-  - name: test_repo
+  - name: twtest_repo
     type: GitRepo
     configuration:
       gitProvider: twgithub
@@ -12,11 +12,11 @@ pipelines:
         type: Bash
         configuration:
           inputResources:
-            - name: test_repo
+            - name: twtest_repo
 
         execution:
           onStart:
-            - update_commit_status test_repo
+            - update_commit_status twtest_repo
             - echo "$is_success"
           onExecute:
             - echo "hello world"
@@ -24,18 +24,18 @@ pipelines:
             - echo "$is_success"
           onComplete:
             - echo "$is_success"
-            - update_commit_status test_repo
+            - update_commit_status twtest_repo
       - name: execute_failure_tests
         type: Bash
         configuration:
           inputResources:
-            - name: test_repo
+            - name: twtest_repo
           inputSteps:
             - name: execute_success_tests
 
         execution:
           onStart:
-            - update_commit_status test_repo
+            - update_commit_status twtest_repo
             - echo "$is_success"
           onExecute:
             - cd fail
@@ -43,4 +43,4 @@ pipelines:
             - echo "$is_success"
           onComplete:
             - echo "$is_success"
-            - update_commit_status test_repo
+            - update_commit_status twtest_repo
