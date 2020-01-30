@@ -16,7 +16,7 @@ pipelines:
 
         execution:
           onStart:
-            - update_commit_status twtest_repo
+            - update_commit_status twtest_repo --message "$pipeline_name" --context "$step_name"
             - echo "$is_success"
           onExecute:
             - echo "hello world"
@@ -35,7 +35,7 @@ pipelines:
 
         execution:
           onStart:
-            - update_commit_status twtest_repo
+            - update_commit_status twtest_repo --message "$pipeline_name" --context "$step_name"
             - echo "$is_success"
           onExecute:
             - cd fail
