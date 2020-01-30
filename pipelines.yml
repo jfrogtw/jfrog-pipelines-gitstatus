@@ -24,7 +24,7 @@ pipelines:
             - echo "$is_success"
           onComplete:
             - echo "$is_success"
-            - update_commit_status twtest_repo
+            - update_commit_status twtest_repo --message "$pipeline_name" --context "$step_name"
       - name: tw_execute_failure_tests
         type: Bash
         configuration:
@@ -43,4 +43,4 @@ pipelines:
             - echo "$is_success"
           onComplete:
             - echo "$is_success"
-            - update_commit_status twtest_repo
+            - update_commit_status twtest_repo --message "$pipeline_name" --context "$step_name"
