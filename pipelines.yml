@@ -1,5 +1,5 @@
 resources:
-  - name: twtest_repo
+  - name: my_repo
     type: GitRepo
     configuration:
       gitProvider: twgithub
@@ -18,14 +18,14 @@ pipelines:
             - name: my_repo
         execution:
           onStart:
-            - update_commit_status twtest_repo --message "starting..." --context "$step_name"
+            - update_commit_status my_repo --message "starting..." --context "$step_name"
           onExecute:
-            - update_commit_status twtest_repo --message "running..." --context "$step_name"
+            - update_commit_status my_repo --message "running..." --context "$step_name"
             - echo "Hello World!"
           onFailure:
-            - update_commit_status twtest_repo --message "Failed!" --context "$step_name"
+            - update_commit_status my_repo --message "Failed!" --context "$step_name"
           onSuccess:
-            - update_commit_status twtest_repo --message "Succeeded :-)" --context "$step_name"
+            - update_commit_status my_repo --message "Succeeded :-)" --context "$step_name"
  
       ##
       ## Step 2: Execute a simple, always failing test
@@ -39,11 +39,11 @@ pipelines:
             - name: success_test
         execution:
           onStart:
-            - update_commit_status twtest_repo --message "starting..." --context "$step_name"
+            - update_commit_status my_repo --message "starting..." --context "$step_name"
           onExecute:
-            - update_commit_status twtest_repo --message "running..." --context "$step_name"
+            - update_commit_status my_repo --message "running..." --context "$step_name"
             - cd fail               # No such directory -- guaranteed to fail
           onFailure:
-            - update_commit_status twtest_repo --message "Failed!" --context "$step_name"
+            - update_commit_status my_repo --message "Failed!" --context "$step_name"
           onSuccess:
-            - update_commit_status twtest_repo --message "Succeeded :-)" --context "$step_name"
+            - update_commit_status my_repo --message "Succeeded :-)" --context "$step_name"
