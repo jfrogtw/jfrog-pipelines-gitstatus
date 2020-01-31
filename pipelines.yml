@@ -47,3 +47,25 @@ pipelines:
             - update_commit_status my_repo --message "Failed!" --context "$step_name"
           onSuccess:
             - update_commit_status my_repo --message "Succeeded :-)" --context "$step_name"
+            
+pipelines:
+  - name: git_status_defaults
+    steps:
+      ##
+      ## Step 1: Execute a simple, always successful test
+      ##
+      - name: success_test_defaults
+        type: Bash
+        configuration:
+          inputResources:
+            - name: my_repo
+        execution:
+          onStart:
+            - update_commit_status my_repo
+          onExecute:
+            - update_commit_status my_repo
+            - echo "Hello World!"
+          onFailure:
+            - update_commit_status my_repo
+          onSuccess:
+            - update_commit_status my_repo
