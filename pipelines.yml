@@ -6,41 +6,44 @@ resources:
       path: jfrogtw/jfrog-pipelines-gitstatus
 
 pipelines:
-  - name: twgit_status
+  - name: git_status_test
     steps:
-      - name: tw_execute_success_tests
+      ##
+      ## Step 1: Execute a simple, always successful test
+      ##
+      - name: success_test
         type: Bash
         configuration:
           inputResources:
-            - name: twtest_repo
-
+            - name: my_repo
         execution:
           onStart:
-            - update_commit_status twtest_repo --message "$pipeline_name" --context "$step_name"
-            - echo "$is_success"
+            - update_commit_status twtest_repo --message "starting..." --context "$step_name"
           onExecute:
-            - echo "hello world"
+            - update_commit_status twtest_repo --message "running..." --context "$step_name"
+            - echo "Hello World!"
           onFailure:
-            - echo "$is_success"
-          onComplete:
-            - echo "$is_success"
-            - update_commit_status twtest_repo --message "$pipeline_name" --context "$step_name"
-      - name: tw_execute_failure_tests
+            - update_commit_status twtest_repo --message "Failed!" --context "$step_name"
+          onSuccess:
+            - update_commit_status twtest_repo --message "Succeeded :-)" --context "$step_name"
+ 
+      ##
+      ## Step 2: Execute a simple, always failing test
+      ##
+      - name: failure_test
         type: Bash
         configuration:
           inputResources:
-            - name: twtest_repo
+            - name: my_repo
           inputSteps:
-            - name: tw_execute_success_tests
-
+            - name: success_test
         execution:
           onStart:
-            - update_commit_status twtest_repo --message "$pipeline_name" --context "$step_name"
-            - echo "$is_success"
+            - update_commit_status twtest_repo --message "starting..." --context "$step_name"
           onExecute:
-            - cd fail
+            - update_commit_status twtest_repo --message "running..." --context "$step_name"
+            - cd fail               # No such directory -- guaranteed to fail
           onFailure:
-            - echo "$is_success"
-          onComplete:
-            - echo "$is_success"
-            - update_commit_status twtest_repo --message "$pipeline_name" --context "$step_name"
+            - update_commit_status twtest_repo --message "Failed!" --context "$step_name"
+          onSuccess:
+            - update_commit_status twtest_repo --message "Succeeded :-)" --context "$step_name"
