@@ -48,7 +48,6 @@ pipelines:
           onSuccess:
             - update_commit_status my_repo --message "Succeeded :-)" --context "$step_name"
             
-pipelines:
   - name: git_status_defaults
     steps:
       ##
