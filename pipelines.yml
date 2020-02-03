@@ -95,7 +95,7 @@ pipelines:
             - name: gsp_step_1
         execution:
           onExecute:
-            - echo "Hello World!"
+            - cd fail
           onFailure:
             - update_commit_status my_repo --message "$step_name failed" --context "$pipeline_name:$run_number"
  
