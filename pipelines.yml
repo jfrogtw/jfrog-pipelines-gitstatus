@@ -69,3 +69,49 @@ pipelines:
             - update_commit_status my_repo
           onSuccess:
             - update_commit_status my_repo
+            
+  - name: git_status_pipeline
+    steps:
+      - name: gsp_step_1
+        type: Bash
+        configuration:
+          inputResources:
+            - name: my_repo
+        execution:
+          onStart:
+            - update_commit_status my_repo --message "starting..." --context "$pipeline_name:$run_number"
+          onExecute:
+            - echo "Hello World!"
+          onFailure:
+            - update_commit_status my_repo --message "$step_name failed" --context "$pipeline_name:$run_number"
+ 
+      - name: gsp_step_2
+        type: Bash
+        configuration:
+          inputResources:
+            - name: my_repo
+              trigger: false
+          inputSteps:
+            - name: gsp_step_1
+        execution:
+          onExecute:
+            - echo "Hello World!"
+          onFailure:
+            - update_commit_status my_repo --message "$step_name failed" --context "$pipeline_name:$run_number"
+ 
+      - name: gsp_step_3
+        type: Bash
+        configuration:
+          inputResources:
+            - name: my_repo
+              trigger: false
+          inputSteps:
+            - name: gsp_step_2
+        execution:
+          onExecute:
+            - echo "Hello World!"
+          onFailure:
+            - update_commit_status my_repo --message "$step_name failed" --context "$pipeline_name:$run_number"
+          onSuccess:
+            - update_commit_status my_repo --message "Build succeeded" --context "$pipeline_name:$run_number"
+              
