@@ -53,7 +53,7 @@ pipelines:
       ##
       ## Step 1: Execute a simple, always successful test
       ##
-      - name: success_test_defaults
+      - name: status_update_defaults
         type: Bash
         configuration:
           inputResources:
