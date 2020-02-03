@@ -35,6 +35,7 @@ pipelines:
         configuration:
           inputResources:
             - name: my_repo
+              trigger: false
           inputSteps:
             - name: success_test
         execution:
